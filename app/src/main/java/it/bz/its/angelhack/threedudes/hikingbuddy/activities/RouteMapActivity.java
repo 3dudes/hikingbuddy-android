@@ -1,4 +1,4 @@
-package it.bz.its.angelhack.threedudes.hikingbuddy;
+package it.bz.its.angelhack.threedudes.hikingbuddy.activities;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import it.bz.its.angelhack.threedudes.hikingbuddy.R;
 
 public class RouteMapActivity extends FragmentActivity {
 
