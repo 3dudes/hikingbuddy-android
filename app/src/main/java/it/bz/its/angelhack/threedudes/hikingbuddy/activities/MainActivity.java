@@ -1,5 +1,7 @@
 package it.bz.its.angelhack.threedudes.hikingbuddy.activities;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -27,7 +29,6 @@ public class MainActivity extends AppCompatActivity implements SlidingTabLayout.
         tabHost.setViewPager(viewPager);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -44,6 +45,15 @@ public class MainActivity extends AppCompatActivity implements SlidingTabLayout.
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            SharedPreferences.Editor prefEdit = getSharedPreferences("infos", MODE_PRIVATE).edit();
+
+            prefEdit.remove("token");
+            prefEdit.commit();
+
+            Intent loginIntent = new Intent(this, LoginActivity.class);
+
+            startActivity(loginIntent);
+            finish();
             return true;
         }
 

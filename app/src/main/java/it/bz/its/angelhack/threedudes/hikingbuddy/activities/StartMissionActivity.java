@@ -67,7 +67,7 @@ public class StartMissionActivity extends AppCompatActivity {
         final Button btStartMission = (Button) this.findViewById(R.id.bt_start_mission);
 
         // Restore user_name and avatar
-        SharedPreferences prefs = getSharedPreferences("infos", MODE_PRIVATE);
+        final SharedPreferences prefs = getSharedPreferences("infos", MODE_PRIVATE);
         Picasso.with(this).load(prefs.getString("avatar", "@drawable/default_profile_image")).into(imgAvatar);
 
         btStartMission.setOnClickListener(new View.OnClickListener() {
@@ -153,6 +153,10 @@ public class StartMissionActivity extends AppCompatActivity {
                             tvMissionStartName.setText(startLocation.getName());
                             tvMissionEndName.setText(endLocation.getName());
                             btStartMission.setEnabled(true);
+
+                            SharedPreferences.Editor prefsEdit = prefs.edit();
+                            prefsEdit.putInt("mission_id", m.getId());
+                            prefsEdit.commit();
 
                             // Process the graph
                             final LineChart chart = (LineChart) findViewById(R.id.chart);

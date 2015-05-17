@@ -10,4 +10,8 @@ public class Ranking {
     int missionId;
     int score;
     User user;
+
+    public User getUser() {
+        return this.user;
+    }
 }

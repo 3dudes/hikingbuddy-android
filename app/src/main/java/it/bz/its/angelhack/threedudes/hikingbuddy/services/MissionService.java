@@ -19,6 +19,6 @@ public interface MissionService {
     @GET("/missions/{mission_id}/height_profile")
     public void getHeightInfo(@Path("mission_id") int missionId, Callback<HeightGraph> cb);
 
-    @GET("/mission/{mission_id}/ranking")
+    @GET("/missions/{mission_id}/ranking")
     public void getRanking(@Path("mission_id") int missionId, Callback<RankingResponse> cb);
 }

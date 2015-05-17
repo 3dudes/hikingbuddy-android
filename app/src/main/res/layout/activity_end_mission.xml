@@ -50,7 +50,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Your time for this mission was"
             android:id="@+id/textView2"
             android:layout_gravity="center_horizontal"/>
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="00:00:00"
-            android:id="@+id/textView3"
+            android:id="@+id/tv_end_final_counter_val"
             android:layout_gravity="center_horizontal"
             android:textStyle="bold"/>
 
@@ -70,7 +70,8 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="for which this is your ranking:"
             android:id="@+id/textView4"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center_horizontal"
+            android:visibility="invisible"/>
 
         <ViewSwitcher
             android:layout_width="match_parent"
@@ -87,7 +88,7 @@
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/listView"
+                android:id="@+id/lv_end_ranking"
                 android:layout_gravity="center_horizontal"/>
         </ViewSwitcher>
 

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
@@ -55,6 +56,7 @@ public class RouteMapActivity extends AppCompatActivity {
     private Date missionStartTime;
     private NfcAdapter nfcAdapter;
     private PendingIntent pendingIntent;
+    private String displayedCounterVal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +98,8 @@ public class RouteMapActivity extends AppCompatActivity {
                         long secondsElapsed = (dateDiff - minutesElapsed * 60 * 1000) / 1000;
                         long millisecondsElapsed = (dateDiff % 1000) / 10;
 
-                        tvTimer.setText(String.format("%02d:%02d:%02d", minutesElapsed, secondsElapsed, millisecondsElapsed));
+                        displayedCounterVal = String.format("%02d:%02d:%02d", minutesElapsed, secondsElapsed, millisecondsElapsed);
+                        tvTimer.setText(displayedCounterVal);
                     }
                 });
 
@@ -194,8 +197,18 @@ public class RouteMapActivity extends AppCompatActivity {
             public void success(MissionSessionResponse response, Response response2) {
                 Intent endMissionIntentActivity = new Intent(RouteMapActivity.this, EndMissionActivity.class);
 
+                endMissionIntentActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                if (currentMission != null) {
+                    endMissionIntentActivity.putExtra(EndMissionActivity.MISSION_ID, currentMission.getId());
+                } else {
+                    SharedPreferences prefs = getSharedPreferences("infos", MODE_PRIVATE);
+                    endMissionIntentActivity.putExtra(EndMissionActivity.MISSION_ID, prefs.getInt("mission_id", 1));
+                }
+                endMissionIntentActivity.putExtra(EndMissionActivity.MISSION_TIME_ELAPSED, displayedCounterVal);
                 startActivity(endMissionIntentActivity);
                 progDialog.dismiss();
+
+                finish();
             }
 
             @Override
@@ -265,7 +278,7 @@ public class RouteMapActivity extends AppCompatActivity {
         }
 
         protected Long doInBackground(Route... rs) {
-            if (rs != null) {
+            if (rs != null && rs.length != 0 && rs[0] != null) {
                 Route route = rs[0];
                 List<RoutePoint> routePoints = route.getRoute();
 

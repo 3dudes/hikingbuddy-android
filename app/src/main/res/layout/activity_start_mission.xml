@@ -25,7 +25,7 @@
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:id="@+id/vs_start_mission"
-        android:layout_weight="1">
+        android:layout_weight="5">
 
         <ProgressBar
             style="?android:attr/progressBarStyleLarge"

@@ -32,9 +32,8 @@ public class HeightGraph {
 
         for (String prof : heightProfile) {
             float val = Float.parseFloat(prof);
-            Log.d(TAG, String.format("%f", val));
-            toRet.add(new Entry(val, xId));
 
+            toRet.add(new Entry(val, xId));
             xId++;
         }
 
