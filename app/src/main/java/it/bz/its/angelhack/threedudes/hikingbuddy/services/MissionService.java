@@ -2,6 +2,7 @@ package it.bz.its.angelhack.threedudes.hikingbuddy.services;
 
 import it.bz.its.angelhack.threedudes.hikingbuddy.models.HeightGraph;
 import it.bz.its.angelhack.threedudes.hikingbuddy.models.MissionResponse;
+import it.bz.its.angelhack.threedudes.hikingbuddy.models.RankingResponse;
 import it.bz.its.angelhack.threedudes.hikingbuddy.models.Route;
 import retrofit.Callback;
 import retrofit.http.GET;
@@ -17,4 +18,7 @@ public interface MissionService {
 
     @GET("/missions/{mission_id}/height_profile")
     public void getHeightInfo(@Path("mission_id") int missionId, Callback<HeightGraph> cb);
+
+    @GET("/mission/{mission_id}/ranking")
+    public void getRanking(@Path("mission_id") int missionId, Callback<RankingResponse> cb);
 }

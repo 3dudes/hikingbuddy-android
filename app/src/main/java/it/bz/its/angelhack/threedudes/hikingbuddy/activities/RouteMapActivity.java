@@ -120,10 +120,12 @@ public class RouteMapActivity extends FragmentActivity {
                                 msr.abortMission(new Callback<Response>() {
                                     @Override
                                     public void success(Response response, Response response2) {
-                                        Intent endMissionIntentActivity = new Intent(RouteMapActivity.this, EndMissionActivity.class);
+                                        Intent mainMissionIntentActivity = new Intent(RouteMapActivity.this, MainActivity.class);
 
-                                        startActivity(endMissionIntentActivity);
+                                        startActivity(mainMissionIntentActivity);
                                         progDialog.dismiss();
+
+                                        finish();
                                     }
 
                                     @Override
@@ -179,8 +181,6 @@ public class RouteMapActivity extends FragmentActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-
         Log.d(TAG, "New intent received: " + intent.getAction());
         Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
         RestAdapter restAdapter = Utils.getRestAdapter(RouteMapActivity.this);

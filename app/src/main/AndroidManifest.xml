@@ -73,8 +73,7 @@
 
         <activity
             android:name=".activities.EndMissionActivity"
-            android:label="@string/title_activity_end_mission"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
+            android:label="@string/title_activity_end_mission" >
         </activity>
 
         <meta-data

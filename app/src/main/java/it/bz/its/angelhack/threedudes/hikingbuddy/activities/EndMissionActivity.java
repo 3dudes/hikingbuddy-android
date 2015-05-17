@@ -24,7 +24,7 @@ public class EndMissionActivity extends AppCompatActivity {
         btEndMission.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent profileStarter = new Intent(EndMissionActivity.this, ProfileActivity.class);
+                Intent profileStarter = new Intent(EndMissionActivity.this, MainActivity.class);
 
                 startActivity(profileStarter);
             }

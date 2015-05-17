@@ -99,22 +99,25 @@ public class StartMissionActivity extends AppCompatActivity {
                                 // Stop the loading dialog
                                 pgLoadingDialog.dismiss();
 
-                                HttpCodes httpCode = HttpCodes.getFromNumericValue(error.getResponse().getStatus());
-                                RestErrorResponse restErrorResp = (RestErrorResponse) error.getBodyAs(RestErrorResponse.class);
+                                Response response = error.getResponse();
+                                if (response != null) {
+                                    HttpCodes httpCode = HttpCodes.getFromNumericValue(error.getResponse().getStatus());
+                                    RestErrorResponse restErrorResp = (RestErrorResponse) error.getBodyAs(RestErrorResponse.class);
 
-                                switch (httpCode) {
-                                    case UNPROCESSABLE:
-                                        Utils.showOkAlertDialog(StartMissionActivity.this,
-                                                "Mission not started",
-                                                restErrorResp.getJoinedErrors(),
-                                                null);
-                                        break;
-                                    default:
-                                        Utils.showOkAlertDialog(StartMissionActivity.this,
-                                                "Problem",
-                                                error.getMessage(),
-                                                null);
-                                        break;
+                                    switch (httpCode) {
+                                        case UNPROCESSABLE:
+                                            Utils.showOkAlertDialog(StartMissionActivity.this,
+                                                    "Mission not started",
+                                                    restErrorResp.getJoinedErrors(),
+                                                    null);
+                                            break;
+                                        default:
+                                            Utils.showOkAlertDialog(StartMissionActivity.this,
+                                                    "Problem",
+                                                    error.getMessage(),
+                                                    null);
+                                            break;
+                                    }
                                 }
                             }
                         });
