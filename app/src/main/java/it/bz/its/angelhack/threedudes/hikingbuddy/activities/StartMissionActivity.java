@@ -3,9 +3,12 @@ package it.bz.its.angelhack.threedudes.hikingbuddy.activities;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+
+import it.bz.its.angelhack.threedudes.hikingbuddy.models.HeightGraph;
 import it.bz.its.angelhack.threedudes.hikingbuddy.models.Location;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.os.Bundle;
@@ -18,7 +21,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import it.bz.its.angelhack.threedudes.hikingbuddy.R;
 import it.bz.its.angelhack.threedudes.hikingbuddy.Utils;
@@ -49,9 +61,12 @@ public class StartMissionActivity extends Activity {
         TextView tvFirstName = (TextView) this.findViewById(R.id.tv_mission_start_user_name);
         ImageView imgAvatar = (ImageView) this.findViewById(R.id.img_profile);
         final ViewSwitcher vSwitcher = (ViewSwitcher) this.findViewById(R.id.vs_start_mission);
+        final ViewSwitcher vSwitcherGraph = (ViewSwitcher) this.findViewById(R.id.vs_load_height_graph);
         final TextView tvInvitation = (TextView) this.findViewById(R.id.tv_invitation_message);
         final TextView tvMissionStartName = (TextView) this.findViewById(R.id.tv_mission_start_name);
         final TextView tvMissionEndName = (TextView) this.findViewById(R.id.tv_mission_end_name);
+        final TextView tvRouteDistance = (TextView) this.findViewById(R.id.tv_route_distance);
+        final TextView tvAverageTime = (TextView) this.findViewById(R.id.tv_route_average_length);
         final Button btStartMission = (Button) this.findViewById(R.id.bt_start_mission);
 
         // Restore user_name and avatar
@@ -117,7 +132,7 @@ public class StartMissionActivity extends Activity {
 
             // Create the rest manager and hook it up to the models
             RestAdapter restAdapter = Utils.getRestAdapter(StartMissionActivity.this);
-            MissionService missionServiceInfoImpl = restAdapter.create(MissionService.class);
+            final MissionService missionServiceInfoImpl = restAdapter.create(MissionService.class);
 
             // Make the actual request
             missionServiceInfoImpl.getMission(tagId, new Callback<MissionResponse>() {
@@ -134,9 +149,47 @@ public class StartMissionActivity extends Activity {
                             Location endLocation = m.getEndLocation();
 
                             tvInvitation.setText(String.format("%s", m.getName()));
+                            tvAverageTime.setText(Utils.pretifyAverageTime(m.getAverageTime()));
+                            tvRouteDistance.setText(Utils.pretifyDistance(m.getDistance()));
                             tvMissionStartName.setText(startLocation.getName());
                             tvMissionEndName.setText(endLocation.getName());
                             btStartMission.setEnabled(true);
+
+                            // Process the graph
+                            final LineChart chart = (LineChart) findViewById(R.id.chart);
+                            chart.setDescription("Terrain Height");
+                            chart.getAxisLeft().setDrawLabels(false);
+                            // chart.getAxisRight().setDrawLabels(false);
+                            chart.getXAxis().setDrawLabels(false);
+                            chart.getLegend().setEnabled(false);
+                            missionServiceInfoImpl.getHeightInfo(m.getId(), new Callback<HeightGraph>() {
+                                @Override
+                                public void success(HeightGraph heightGraph, Response response) {
+                                    List<Entry> dataSet = heightGraph.getGraphEntries();
+                                    ArrayList<String> xVals = new ArrayList<String>();
+                                    LineDataSet lds;
+
+                                    for (int i = 0; i < dataSet.size(); i++) {
+                                        xVals.add((i) + "");
+                                    }
+                                    lds = new LineDataSet(heightGraph.getGraphEntries(), "3");
+                                    lds.setColor(Color.BLACK);
+                                    lds.setLineWidth(0.5f);
+                                    lds.setDrawValues(false);
+                                    lds.setDrawCircles(false);
+                                    lds.setDrawCubic(false);
+                                    lds.setDrawFilled(true);
+
+                                    chart.setData(new LineData(xVals, lds));
+                                    chart.invalidate();
+                                    vSwitcherGraph.showNext();
+                                }
+
+                                @Override
+                                public void failure(RetrofitError error) {
+                                    Utils.showOkAlertDialog(StartMissionActivity.this, "Problem", error.getMessage(), null);
+                                }
+                            });
 
                             vSwitcher.showNext();
                         }

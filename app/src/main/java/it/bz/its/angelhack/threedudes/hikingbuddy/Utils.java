@@ -114,4 +114,33 @@ public class Utils {
                 })
                 .build();
     }
+
+    public static String pretifyDistance(int distance) {
+        String retVal = "";
+
+        if (distance >= 1000) {
+            retVal = String.format("%dkm%dm", distance/1000, distance%1000);
+        } else {
+            retVal = String.format("%dm", distance);
+        }
+
+        return retVal;
+    }
+
+    public static String pretifyAverageTime(int time) {
+        String retVal = "";
+        int elapsedHours = time / 3600;
+        int elapsedMinutes = (time - elapsedHours * 3600) / 60;
+        int elapsedSeconds = time % 60;
+
+        if (elapsedHours != 0) {
+            retVal = String.format("%dh%dm%ds", elapsedHours, elapsedMinutes, elapsedSeconds);
+        } else if (elapsedMinutes != 0) {
+            retVal = String.format("%dm%ds", elapsedMinutes, elapsedSeconds);
+        } else {
+            retVal = String.format("%ds", elapsedSeconds);
+        }
+
+        return retVal;
+    }
 }

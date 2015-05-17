@@ -37,6 +37,8 @@ public class LoginActivity extends Activity {
         if (prefToken.isEmpty() == false) {
             Log.d(TAG, "Token restored from preference: " + prefToken);
             gotoProfileActivity();
+
+            finish();
         }
 
         // Load used views

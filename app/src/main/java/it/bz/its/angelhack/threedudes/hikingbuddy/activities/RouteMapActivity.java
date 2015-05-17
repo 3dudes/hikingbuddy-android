@@ -16,11 +16,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.Date;
@@ -29,6 +31,7 @@ import java.util.List;
 import it.bz.its.angelhack.threedudes.hikingbuddy.Constants;
 import it.bz.its.angelhack.threedudes.hikingbuddy.R;
 import it.bz.its.angelhack.threedudes.hikingbuddy.Utils;
+import it.bz.its.angelhack.threedudes.hikingbuddy.models.HeightGraph;
 import it.bz.its.angelhack.threedudes.hikingbuddy.models.Location;
 import it.bz.its.angelhack.threedudes.hikingbuddy.models.Mission;
 import it.bz.its.angelhack.threedudes.hikingbuddy.models.MissionSessionResponse;
@@ -56,6 +59,11 @@ public class RouteMapActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_route_map);
+
+        // Load the route
+        RestAdapter restAdapter = Utils.getRestAdapter(RouteMapActivity.this);
+        final MissionSessionService msr = restAdapter.create(MissionSessionService.class);
+        final MissionService ms = restAdapter.create(MissionService.class);
 
         // Prepare the NFC listener
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -107,9 +115,6 @@ public class RouteMapActivity extends FragmentActivity {
                         new Runnable() {
                             @Override
                             public void run() {
-                                RestAdapter restAdapter = Utils.getRestAdapter(RouteMapActivity.this);
-                                MissionSessionService msr = restAdapter.create(MissionSessionService.class);
-
                                 final ProgressDialog progDialog = Utils.newLoadingDialog(RouteMapActivity.this, "Cancelling mission ...");
                                 progDialog.show();
                                 msr.abortMission(new Callback<Response>() {
@@ -135,10 +140,6 @@ public class RouteMapActivity extends FragmentActivity {
         });
 
         if (currentMission != null) {
-            // Load the route
-            RestAdapter restAdapter = Utils.getRestAdapter(RouteMapActivity.this);
-            MissionService ms = restAdapter.create(MissionService.class);
-
             final ProgressDialog progDialog = Utils.newLoadingDialog(RouteMapActivity.this, "Downloading route ...");
             progDialog.show();
             ms.getRoute(currentMission.getId(), new Callback<Route>() {

@@ -10,14 +10,18 @@ import com.google.gson.annotations.SerializedName;
 public class Mission implements Parcelable {
     int id;
     String name;
-    @SerializedName("start_location")
+    int distance;
+    int averageTime;
+    int sessionCountTotal;
     Location startLocation;
-    @SerializedName("end_location")
     Location endLocation;
 
     public Mission(Parcel in) {
         this.id = in.readInt();
         this.name = in.readString();
+        this.distance = in.readInt();
+        this.averageTime = in.readInt();
+        this.sessionCountTotal = in.readInt();
         this.startLocation = (Location)in.readParcelable(Location.class.getClassLoader());
         this.endLocation = (Location)in.readParcelable(Location.class.getClassLoader());
     }
@@ -25,6 +29,13 @@ public class Mission implements Parcelable {
     public int getId() { return this.id; }
     public String getName() {
         return this.name;
+    }
+
+    public int getDistance() {
+        return this.distance;
+    }
+    public int getAverageTime() {
+        return  this.averageTime;
     }
 
     public Location getStartLocation() {
@@ -57,6 +68,9 @@ public class Mission implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.id);
         dest.writeString(this.name);
+        dest.writeInt(this.distance);
+        dest.writeInt(this.averageTime);
+        dest.writeInt(this.sessionCountTotal);
         dest.writeParcelable(this.startLocation, 0);
         dest.writeParcelable(this.endLocation, 0);
     }
