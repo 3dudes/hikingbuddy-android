@@ -1,6 +1,5 @@
 package it.bz.its.angelhack.threedudes.hikingbuddy.activities;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 
@@ -12,6 +11,7 @@ import android.graphics.Color;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -46,7 +46,7 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class StartMissionActivity extends Activity {
+public class StartMissionActivity extends AppCompatActivity {
     private static final String TAG = "StartMissionActivity";
 
     private Mission m;
@@ -58,7 +58,6 @@ public class StartMissionActivity extends Activity {
         setContentView(R.layout.activity_start_mission);
 
         // Load views
-        TextView tvFirstName = (TextView) this.findViewById(R.id.tv_mission_start_user_name);
         ImageView imgAvatar = (ImageView) this.findViewById(R.id.img_profile);
         final ViewSwitcher vSwitcher = (ViewSwitcher) this.findViewById(R.id.vs_start_mission);
         final ViewSwitcher vSwitcherGraph = (ViewSwitcher) this.findViewById(R.id.vs_load_height_graph);
@@ -71,7 +70,6 @@ public class StartMissionActivity extends Activity {
 
         // Restore user_name and avatar
         SharedPreferences prefs = getSharedPreferences("infos", MODE_PRIVATE);
-        tvFirstName.setText(prefs.getString("name", "OmpaDompa"));
         Picasso.with(this).load(prefs.getString("avatar", "@drawable/default_profile_image")).into(imgAvatar);
 
         btStartMission.setOnClickListener(new View.OnClickListener() {

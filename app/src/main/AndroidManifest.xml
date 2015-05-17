@@ -43,7 +43,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_start_mission"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
+            android:theme="@style/FullscreenTheme" >
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -62,7 +62,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.ProfileActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/title_activity_profile" >
         </activity>
         <activity
