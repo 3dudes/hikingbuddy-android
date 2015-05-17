@@ -4,6 +4,7 @@ public enum HttpCodes {
     UNKNOWN(-1),
     OK(200),
     CREATED(201),
+    UNAUTHORIZED(401),
     NOTFOUND(404),
     UNPROCESSABLE(422);
 

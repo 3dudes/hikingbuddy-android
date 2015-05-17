@@ -9,8 +9,8 @@ import retrofit.http.Query;
 
 public interface MissionService {
     @GET("/missions/search")
-    public void getMission(@Query("user_id") String userId, @Query("serial") String nfcId, Callback<MissionResponse> cb);
+    public void getMission(@Query("serial") String nfcId, Callback<MissionResponse> cb);
 
-    @GET("/missions/{mission_id}/route?user_id=1")
-    public void getRoute(@Path("mission_id") int missionId, @Query("user_id") String userId, Callback<Route> cb);
+    @GET("/missions/{mission_id}/route")
+    public void getRoute(@Path("mission_id") int missionId, Callback<Route> cb);
 }

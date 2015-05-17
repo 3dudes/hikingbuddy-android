@@ -1,11 +1,14 @@
 package it.bz.its.angelhack.threedudes.hikingbuddy.services;
 
-import it.bz.its.angelhack.threedudes.hikingbuddy.models.UserResponse;
+import it.bz.its.angelhack.threedudes.hikingbuddy.models.AuthResponse;
 import retrofit.Callback;
+import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.POST;
 import retrofit.http.Query;
 
 public interface UserService {
-    @POST("")
-    public void login(@Query("username") String user, @Query("password") String passwd, Callback<UserResponse> cb);
+    @POST("/session.json")
+    @FormUrlEncoded
+    public void login(@Field("session[email]") String email, @Field("session[password]") String passwd, Callback<AuthResponse> cb);
 }

@@ -9,29 +9,38 @@
                 android:orientation="vertical"
                 tools:context="it.bz.its.angelhack.threedudes.hikingbuddy.activities.StartMissionActivity">
 
-    <ImageView
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/img_profile"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:focusableInTouchMode="true"
-        android:src="@drawable/default_profile"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="1"/>
+        android:layout_weight="2">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/img_profile"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:focusableInTouchMode="true"
+            android:src="@drawable/default_profile_image"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="666"
+            android:id="@+id/tv_mission_start_user_name"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
 
     <ViewSwitcher
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:id="@+id/vs_start_mission"
         android:layout_weight="2">
-
-        <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/progressBar"
-            android:layout_gravity="center_vertical|center_horizontal"/>
 
         <FrameLayout
             android:layout_width="fill_parent"
@@ -88,6 +97,13 @@
                 </LinearLayout>
             </LinearLayout>
         </FrameLayout>
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar"
+            android:layout_gravity="center_vertical|center_horizontal"/>
 
     </ViewSwitcher>
 

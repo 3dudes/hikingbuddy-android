@@ -1,23 +1,23 @@
 package it.bz.its.angelhack.threedudes.hikingbuddy;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 
 public class Utils {
+    private static final String TAG = "Utils";
     final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
 
     public static String bytesToHex(byte[] bytes) {
@@ -90,7 +90,7 @@ public class Utils {
         return progress;
     }
 
-    public static RestAdapter getRestAdapter() {
+    public static RestAdapter getRestAdapter(final Activity actv) {
         Gson gson = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
@@ -100,6 +100,18 @@ public class Utils {
                 .setEndpoint(Constants.REST_ADDRESS)
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .setConverter(new GsonConverter(gson))
+                .setRequestInterceptor(new RequestInterceptor() {
+                    @Override
+                    public void intercept(RequestFacade request) {
+                        if (actv != null) {
+                            SharedPreferences prefs = actv.getSharedPreferences("infos", Context.MODE_PRIVATE);
+                            String prefToken = prefs.getString("token", "");
+
+                            request.addQueryParam("token", prefToken);
+                            Log.d(TAG, "Token restored from preference: " + prefToken);
+                        }
+                    }
+                })
                 .build();
     }
 }

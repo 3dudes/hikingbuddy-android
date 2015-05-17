@@ -59,13 +59,14 @@ public class RouteMapActivity extends FragmentActivity {
 
         // Prepare the NFC listener
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
-        pendingIntent = PendingIntent.getActivity(
-                this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+        pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
 
         // Process the starting intent
         Intent starterIntent = getIntent();
-        if (starterIntent != null) {
+        if (starterIntent != null && starterIntent.hasExtra(MISSION_HOLDER_ID)) {
             currentMission = starterIntent.getParcelableExtra(MISSION_HOLDER_ID);
+
+            starterIntent.removeExtra(MISSION_HOLDER_ID);
         }
 
         // Create the timer update logic
@@ -106,13 +107,12 @@ public class RouteMapActivity extends FragmentActivity {
                         new Runnable() {
                             @Override
                             public void run() {
-                                RestAdapter restAdapter = Utils.getRestAdapter();
+                                RestAdapter restAdapter = Utils.getRestAdapter(RouteMapActivity.this);
                                 MissionSessionService msr = restAdapter.create(MissionSessionService.class);
 
-                                //TODO
                                 final ProgressDialog progDialog = Utils.newLoadingDialog(RouteMapActivity.this, "Cancelling mission ...");
                                 progDialog.show();
-                                msr.abortMission("1", new Callback<Response>() {
+                                msr.abortMission(new Callback<Response>() {
                                     @Override
                                     public void success(Response response, Response response2) {
                                         Intent endMissionIntentActivity = new Intent(RouteMapActivity.this, EndMissionActivity.class);
@@ -136,13 +136,12 @@ public class RouteMapActivity extends FragmentActivity {
 
         if (currentMission != null) {
             // Load the route
-            RestAdapter restAdapter = Utils.getRestAdapter();
+            RestAdapter restAdapter = Utils.getRestAdapter(RouteMapActivity.this);
             MissionService ms = restAdapter.create(MissionService.class);
 
-            //TODO
-            final ProgressDialog progDialog = Utils.newLoadingDialog(RouteMapActivity.this, "Cancelling mission ...");
+            final ProgressDialog progDialog = Utils.newLoadingDialog(RouteMapActivity.this, "Downloading route ...");
             progDialog.show();
-            ms.getRoute(currentMission.getId(), "1", new Callback<Route>() {
+            ms.getRoute(currentMission.getId(), new Callback<Route>() {
                 @Override
                 public void success(Route route, Response response2) {
                     Log.d(TAG, "Received a route with " + route.getRoute().size() + " geo points.");
@@ -181,14 +180,14 @@ public class RouteMapActivity extends FragmentActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
 
+        Log.d(TAG, "New intent received: " + intent.getAction());
         Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-        RestAdapter restAdapter = Utils.getRestAdapter();
+        RestAdapter restAdapter = Utils.getRestAdapter(RouteMapActivity.this);
         MissionSessionService msr = restAdapter.create(MissionSessionService.class);
 
-        //TODO
         final ProgressDialog progDialog = Utils.newLoadingDialog(RouteMapActivity.this, "Ending mission ...");
         progDialog.show();
-        msr.checkTag("1", Utils.bytesToHex(tag.getId()), new Callback<MissionSessionResponse>() {
+        msr.checkTag(Utils.bytesToHex(tag.getId()), new Callback<MissionSessionResponse>() {
             @Override
             public void success(MissionSessionResponse response, Response response2) {
                 Intent endMissionIntentActivity = new Intent(RouteMapActivity.this, EndMissionActivity.class);
@@ -268,12 +267,11 @@ public class RouteMapActivity extends FragmentActivity {
                 Route route = rs[0];
                 List<RoutePoint> routePoints = route.getRoute();
 
-
                 if (routePoints.size() > 1) {
                     for (int i = 0; i < routePoints.size() - 1; i++) {
                         PolylineOptions segmOptions = new PolylineOptions()
                                 .add(routePoints.get(i).getGoogleMapCoord(), routePoints.get(i + 1).getGoogleMapCoord())
-                                .width(5)
+                                .width(4)
                                 .color(Color.RED);
 
                         publishProgress(segmOptions);

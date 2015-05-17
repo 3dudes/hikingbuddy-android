@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import it.bz.its.angelhack.threedudes.hikingbuddy.models.Location;
+
+import android.content.SharedPreferences;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.os.Bundle;
@@ -12,8 +14,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
+
+import com.squareup.picasso.Picasso;
 
 import it.bz.its.angelhack.threedudes.hikingbuddy.R;
 import it.bz.its.angelhack.threedudes.hikingbuddy.Utils;
@@ -41,22 +46,28 @@ public class StartMissionActivity extends Activity {
         setContentView(R.layout.activity_start_mission);
 
         // Load views
+        TextView tvFirstName = (TextView) this.findViewById(R.id.tv_mission_start_user_name);
+        ImageView imgAvatar = (ImageView) this.findViewById(R.id.img_profile);
         final ViewSwitcher vSwitcher = (ViewSwitcher) this.findViewById(R.id.vs_start_mission);
         final TextView tvInvitation = (TextView) this.findViewById(R.id.tv_invitation_message);
         final TextView tvMissionStartName = (TextView) this.findViewById(R.id.tv_mission_start_name);
         final TextView tvMissionEndName = (TextView) this.findViewById(R.id.tv_mission_end_name);
         final Button btStartMission = (Button) this.findViewById(R.id.bt_start_mission);
 
+        // Restore user_name and avatar
+        SharedPreferences prefs = getSharedPreferences("infos", MODE_PRIVATE);
+        tvFirstName.setText(prefs.getString("name", "OmpaDompa"));
+        Picasso.with(this).load(prefs.getString("avatar", "@drawable/default_profile_image")).into(imgAvatar);
+
         btStartMission.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RestAdapter msAdapter = Utils.getRestAdapter();
+                RestAdapter msAdapter = Utils.getRestAdapter(StartMissionActivity.this);
                 MissionSessionService missionServiceImpl = msAdapter.create(MissionSessionService.class);
 
-                //TODO
                 final ProgressDialog pgLoadingDialog = Utils.newLoadingDialog(StartMissionActivity.this, "Starting mission ...");
                 pgLoadingDialog.show();
-                missionServiceImpl.checkTag("1", tagId,
+                missionServiceImpl.checkTag(tagId,
                         new Callback<MissionSessionResponse>() {
                             @Override
                             public void success(MissionSessionResponse missionSessionResponse, Response response) {
@@ -105,12 +116,11 @@ public class StartMissionActivity extends Activity {
             Log.d(TAG, "Application started by NFC tag with id: " + tagId);
 
             // Create the rest manager and hook it up to the models
-            RestAdapter restAdapter = Utils.getRestAdapter();
+            RestAdapter restAdapter = Utils.getRestAdapter(StartMissionActivity.this);
             MissionService missionServiceInfoImpl = restAdapter.create(MissionService.class);
 
             // Make the actual request
-            // TODO
-            missionServiceInfoImpl.getMission("1", tagId, new Callback<MissionResponse>() {
+            missionServiceInfoImpl.getMission(tagId, new Callback<MissionResponse>() {
                 @Override
                 public void success(final MissionResponse mr, Response response) {
                     StartMissionActivity.this.runOnUiThread(new Runnable() {
@@ -119,12 +129,11 @@ public class StartMissionActivity extends Activity {
                             Log.d(TAG, "Mission info acquired.");
 
                             // Prepare everything before displaying the mission
-                            // TODO
                             m = mr.getMission();
                             Location startLocation = m.getStartLocation();
                             Location endLocation = m.getEndLocation();
 
-                            tvInvitation.setText(String.format("Hi %s to the %s mission", "XXX", m.getName()));
+                            tvInvitation.setText(String.format("%s", m.getName()));
                             tvMissionStartName.setText(startLocation.getName());
                             tvMissionEndName.setText(endLocation.getName());
                             btStartMission.setEnabled(true);
@@ -151,9 +160,15 @@ public class StartMissionActivity extends Activity {
                     switch (httpCode) {
                         case NOTFOUND:
                             Utils.showOkAlertDialog(StartMissionActivity.this,
-                                                    "Not Found",
-                                                    "The requested NFC tag is not registered inside our system!",
-                                                    activityKiller);
+                                    "Not Found",
+                                    "The requested NFC tag is not registered inside our system!",
+                                    activityKiller);
+                            break;
+                        case UNAUTHORIZED:
+                            // Not logged in?
+                            Intent loginIntent = new Intent(StartMissionActivity.this, LoginActivity.class);
+
+                            startActivity(loginIntent);
                             break;
                         default:
                             Utils.showOkAlertDialog(StartMissionActivity.this, "Problem", error.getMessage(), activityKiller);

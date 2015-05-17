@@ -14,8 +14,8 @@ import retrofit.http.Query;
 public interface MissionSessionService {
     @POST("/mission_session.json")
     @FormUrlEncoded
-    public void checkTag(@Query("user_id") String userId, @Field("mission_session[serial]") String tagId, Callback<MissionSessionResponse> cb);
+    public void checkTag(@Field("mission_session[serial]") String tagId, Callback<MissionSessionResponse> cb);
 
     @DELETE("/mission_session.json")
-    public void abortMission(@Query("user_id") String userId, Callback<Response> cb);
+    public void abortMission(Callback<Response> cb);
 }

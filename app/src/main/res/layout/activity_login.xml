@@ -14,7 +14,7 @@
 
     <ImageView
         android:layout_width="128dp"
-        android:layout_height="256dp"
+        android:layout_height="200dp"
         android:id="@+id/imageView2"
         android:src="@drawable/hiking_buddy_logo"/>
 
