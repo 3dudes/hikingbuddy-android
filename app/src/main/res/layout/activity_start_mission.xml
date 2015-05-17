@@ -149,8 +149,5 @@
         android:layout_height="wrap_content"
         android:text="Start Mission"
         android:id="@+id/bt_start_mission"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal|bottom"/>
-
+        android:layout_gravity="center_horizontal|bottom" />
 </LinearLayout>

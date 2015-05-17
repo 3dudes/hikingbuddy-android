@@ -1,17 +1,30 @@
 package it.bz.its.angelhack.threedudes.hikingbuddy.activities;
 
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import it.bz.its.angelhack.threedudes.hikingbuddy.R;
+import it.bz.its.angelhack.threedudes.hikingbuddy.adapters.TabsAdapter;
+import it.bz.its.angelhack.threedudes.hikingbuddy.tabs.SlidingTabLayout;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SlidingTabLayout.TabColorizer {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        TabsAdapter tabsAdapter = new TabsAdapter(this, getSupportFragmentManager());
+
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+        viewPager.setAdapter(tabsAdapter);
+
+        SlidingTabLayout tabHost = (SlidingTabLayout) findViewById(R.id.tabHost);
+        tabHost.setDistributeEvenly(true);
+        tabHost.setCustomTabColorizer(this);
+        tabHost.setViewPager(viewPager);
     }
 
 
@@ -35,5 +48,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public int getIndicatorColor(int position) {
+        return getResources().getColor(R.color.selector);
     }
 }

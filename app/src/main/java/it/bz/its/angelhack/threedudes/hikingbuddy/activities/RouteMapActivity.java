@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -44,7 +45,7 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class RouteMapActivity extends FragmentActivity {
+public class RouteMapActivity extends AppCompatActivity {
     private static final String TAG = "RouteMapActivity";
     public static final String MISSION_HOLDER_ID = "RouteMapActivity.Mission";
 
