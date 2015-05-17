@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.ViewSwitcher;
 
 import it.bz.its.angelhack.threedudes.hikingbuddy.R;
@@ -17,7 +16,6 @@ import it.bz.its.angelhack.threedudes.hikingbuddy.Utils;
 import it.bz.its.angelhack.threedudes.hikingbuddy.adapters.ActivitiesAdapter;
 import it.bz.its.angelhack.threedudes.hikingbuddy.models.ActivitiesResponse;
 import it.bz.its.angelhack.threedudes.hikingbuddy.services.ActivityService;
-import it.bz.its.angelhack.threedudes.hikingbuddy.services.UserService;
 import it.bz.its.angelhack.threedudes.hikingbuddy.widget.DividerDecoration;
 import retrofit.Callback;
 import retrofit.RestAdapter;

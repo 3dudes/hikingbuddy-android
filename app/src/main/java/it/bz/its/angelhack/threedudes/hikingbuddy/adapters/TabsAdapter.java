@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import it.bz.its.angelhack.threedudes.hikingbuddy.R;
 import it.bz.its.angelhack.threedudes.hikingbuddy.activities.ActivitiesFragment;
+import it.bz.its.angelhack.threedudes.hikingbuddy.activities.MissionsFragment;
 
 /**
  * Created by philipgiuliani on 17.05.15.
@@ -23,7 +24,14 @@ public class TabsAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return new ActivitiesFragment();
+        if(position == FRAGMENT_TIMELINE) {
+            return new ActivitiesFragment();
+        }
+        else if(position == FRAGMENT_MISSIONS) {
+            return new MissionsFragment();
+        }
+
+        return null;
     }
 
     @Override
