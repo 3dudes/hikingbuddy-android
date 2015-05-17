@@ -2,7 +2,7 @@
     <string name="app_name">Hiking Buddy</string>
     <string name="action_settings">Settings</string>
     <array name="activity_main_tabs">
-        <item>Missions</item>
         <item>Timeline</item>
+        <item>Missions</item>
     </array>
 </resources>

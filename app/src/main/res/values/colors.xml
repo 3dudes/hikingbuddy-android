@@ -2,4 +2,8 @@
     <color name="colorPrimary">#009688</color>
     <color name="colorPrimaryDark">#00796B</color>
     <color name="selector">#FFFFFF</color>
+    <color name="colorDividers">#DADADA</color>
+    <color name="colorPlaceholder">#B8B8B8</color>
+    <color name="colorTextSecondary">#727272</color>
+    <color name="colorTextPrimary">#202020</color>
 </resources>

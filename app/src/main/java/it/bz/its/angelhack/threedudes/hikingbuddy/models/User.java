@@ -23,6 +23,10 @@ public class User implements Parcelable {
         return this.picture;
     }
 
+    public String getFullName() {
+        return this.firstName + " " + this.lastName;
+    }
+
     @Override
     public int describeContents() {
         return 0;

@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         editor.putString("token", authModel.getToken());
                         editor.putString("name", authUser.getFirstName());
-                        editor.putString("avatar", authUser.getPicture().getNormalImageUri());
+                        editor.putString("avatar", authUser.getPicture().getThumbImageUri());
                         editor.apply();
 
                         // Go to the user's profile page

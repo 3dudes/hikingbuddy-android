@@ -20,6 +20,10 @@ public class Picture implements Parcelable {
         return this.normalImageUri;
     }
 
+    public String getThumbImageUri() {
+        return this.thumbImageUri;
+    }
+
     @Override
     public int describeContents() {
         return 0;

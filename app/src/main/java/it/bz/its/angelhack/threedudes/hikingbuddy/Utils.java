@@ -93,7 +93,7 @@ public class Utils {
     public static RestAdapter getRestAdapter(final Activity actv) {
         Gson gson = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
                 .create();
 
         return new RestAdapter.Builder()
@@ -134,9 +134,9 @@ public class Utils {
         int elapsedSeconds = time % 60;
 
         if (elapsedHours != 0) {
-            retVal = String.format("%dh%dm%ds", elapsedHours, elapsedMinutes, elapsedSeconds);
+            retVal = String.format("%dh% dm%ds", elapsedHours, elapsedMinutes, elapsedSeconds);
         } else if (elapsedMinutes != 0) {
-            retVal = String.format("%dm%ds", elapsedMinutes, elapsedSeconds);
+            retVal = String.format("%dm %ds", elapsedMinutes, elapsedSeconds);
         } else {
             retVal = String.format("%ds", elapsedSeconds);
         }
