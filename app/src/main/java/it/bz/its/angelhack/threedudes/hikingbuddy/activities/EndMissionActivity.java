@@ -1,9 +1,12 @@
 package it.bz.its.angelhack.threedudes.hikingbuddy.activities;
 
+import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 
 import it.bz.its.angelhack.threedudes.hikingbuddy.R;
@@ -17,6 +20,14 @@ public class EndMissionActivity extends ActionBarActivity {
         setContentView(R.layout.activity_end_mission);
 
         Button btEndMission = (Button) this.findViewById(R.id.bt_ok_end_mission);
+        btEndMission.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent profileStarter = new Intent(EndMissionActivity.this, ProfileActivity.class);
+
+                startActivity(profileStarter);
+            }
+        });
     }
 
 
