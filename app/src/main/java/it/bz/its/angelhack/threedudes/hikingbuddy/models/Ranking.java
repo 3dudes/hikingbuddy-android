@@ -14,4 +14,7 @@ public class Ranking {
     public User getUser() {
         return this.user;
     }
+    public String getScore() {
+        return String.format("%d", this.score);
+    }
 }

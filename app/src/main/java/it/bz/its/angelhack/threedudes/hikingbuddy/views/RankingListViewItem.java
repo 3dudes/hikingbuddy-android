@@ -39,6 +39,8 @@ public class RankingListViewItem {
             viewHolder.tvName = (TextView) itemView.findViewById(R.id.item_prod_name);
             viewHolder.tvExtraInfo = (TextView) itemView.findViewById(R.id.item_prod_extrainfo);*/
             viewHolder.imgAvatar = (ImageView) itemView.findViewById(R.id.img_ranking_img_profile);
+            viewHolder.tvName = (TextView) itemView.findViewById(R.id.textView5);
+            viewHolder.tvScore = (TextView) itemView.findViewById(R.id.textView6);
 
             itemView.setTag(viewHolder);
         } else {
@@ -47,6 +49,8 @@ public class RankingListViewItem {
 
         // Load initial view data
         Picasso.with(context).load(rank.getUser().getPicture().getNormalImageUri()).into(viewHolder.imgAvatar);
+        viewHolder.tvName.setText(rank.getUser().getFullName());
+        viewHolder.tvScore.setText("Score: " + rank.getScore());
 
         return itemView;
     }
@@ -54,8 +58,7 @@ public class RankingListViewItem {
     protected class ViewHolder {
         RelativeLayout layout;
         ImageView imgAvatar;
-        TextView tvId;
         TextView tvName;
-        TextView tvExtraInfo;
+        TextView tvScore;
     }
 }

@@ -77,7 +77,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/vs_end_ranking"
-            android:layout_gravity="center_horizontal">
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1">
 
             <ProgressBar
                 android:layout_width="wrap_content"

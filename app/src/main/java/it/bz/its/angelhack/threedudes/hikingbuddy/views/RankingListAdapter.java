@@ -31,4 +31,9 @@ public class RankingListAdapter extends ArrayAdapter<RankingListViewItem> {
 
         return itemView;
     }
+
+    @Override
+    public int getCount() {
+        return values.size();
+    }
 }

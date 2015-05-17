@@ -5,6 +5,7 @@ import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +30,7 @@ import retrofit.client.Response;
 
 
 public class EndMissionActivity extends AppCompatActivity {
+    private static final String TAG = "EndMissionActivitiy";
     public static final String MISSION_ID = "EndMissionActivity.MissionID";
     public static final String MISSION_TIME_ELAPSED = "EndMissionActivity.MissionTimeElapsed";
 
@@ -67,9 +69,11 @@ public class EndMissionActivity extends AppCompatActivity {
             @Override
             public void success(RankingResponse rankingResponse, Response response) {
                 List<Ranking> rankingList = rankingResponse.getRankingList();
-
                 RankingListAdapter rkla = new RankingListAdapter(getApplication(), rankingList);
+
+                Log.d(TAG, "Acquired " + rankingList.size() + " ranking entries.");
                 rankingListView.setAdapter(rkla);
+                rankingListView.invalidate();
                 vsEndSwitcher.showNext();
             }
 
