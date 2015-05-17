@@ -27,10 +27,13 @@ import retrofit.client.Response;
 /**
  * Created by philipgiuliani on 17.05.15.
  */
-public class ActivitiesFragment extends Fragment implements Callback<ActivitiesResponse> {
+public class ActivitiesFragment extends Fragment
+        implements Callback<ActivitiesResponse>, SwipeRefreshLayout.OnRefreshListener {
     private ViewSwitcher viewSwitcher;
     private RecyclerView recyclerView;
     private ActivitiesAdapter adapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private ActivityService api;
 
     public ActivitiesFragment() {
     }
@@ -42,6 +45,8 @@ public class ActivitiesFragment extends Fragment implements Callback<ActivitiesR
 
         viewSwitcher = (ViewSwitcher) v.findViewById(R.id.viewSwitcher);
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerView);
+        swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(this);
 
         adapter = new ActivitiesAdapter(getActivity());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -49,8 +54,7 @@ public class ActivitiesFragment extends Fragment implements Callback<ActivitiesR
         recyclerView.addItemDecoration(new DividerDecoration(getActivity()).setPaddingLeft(getResources().getDimensionPixelSize(R.dimen.list_image_padding)));
 
         RestAdapter restAdapter = Utils.getRestAdapter(getActivity());
-        ActivityService api = restAdapter.create(ActivityService.class);
-
+        api = restAdapter.create(ActivityService.class);
         api.getActivities(this);
 
         return v;
@@ -58,12 +62,22 @@ public class ActivitiesFragment extends Fragment implements Callback<ActivitiesR
 
     @Override
     public void success(ActivitiesResponse activitiesResponse, Response response) {
+        swipeRefreshLayout.setRefreshing(false);
         adapter.setActivities(activitiesResponse.getActivities());
-        viewSwitcher.showNext();
+
+        if(viewSwitcher.getNextView() == swipeRefreshLayout) {
+            viewSwitcher.showNext();
+        }
     }
 
     @Override
     public void failure(RetrofitError error) {
+        swipeRefreshLayout.setRefreshing(false);
         Log.d("ERROR", error.getMessage());
+    }
+
+    @Override
+    public void onRefresh() {
+        api.getActivities(this);
     }
 }
