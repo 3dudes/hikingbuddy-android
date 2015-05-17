@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,7 +24,7 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
 
     @Override
@@ -97,7 +98,7 @@ public class LoginActivity extends Activity {
     }
 
     private void gotoProfileActivity() {
-        Intent profileStarter = new Intent(LoginActivity.this, ProfileActivity.class);
+        Intent profileStarter = new Intent(LoginActivity.this, MainActivity.class);
 
         startActivity(profileStarter);
     }
