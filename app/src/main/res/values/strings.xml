@@ -1,14 +1,8 @@
 <resources>
-    <string name="app_name">HikingBuddy</string>
-    <string name="title_activity_route_map">Hiking Buddy</string>
-    <string name="title_activity_start_mission">StartMissionActivity</string>
-
+    <string name="app_name">Hiking Buddy</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_end_mission">EndMissionActivity</string>
-
-    <string name="title_activity_profile">ProfileActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-
-    <string name="hello_world">Hello world!</string>
+    <array name="activity_main_tabs">
+        <item>Missions</item>
+        <item>Timeline</item>
+    </array>
 </resources>

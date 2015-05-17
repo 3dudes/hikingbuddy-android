@@ -1,4 +1,5 @@
 <resources>
     <color name="colorPrimary">#009688</color>
     <color name="colorPrimaryDark">#00796B</color>
+    <color name="selector">#FFFFFF</color>
 </resources>
