@@ -11,14 +11,14 @@ import it.bz.its.angelhack.threedudes.hikingbuddy.R;
 /**
  * Created by philipgiuliani on 17.05.15.
  */
-public class MissionsFragment extends Fragment {
-    public MissionsFragment() {
+public class ActivitiesFragment extends Fragment {
+    public ActivitiesFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_missions, container, false);
+        View v = inflater.inflate(R.layout.fragment_activities, container, false);
 
         return v;
     }

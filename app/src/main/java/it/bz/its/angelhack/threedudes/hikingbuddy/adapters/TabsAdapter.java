@@ -1,20 +1,19 @@
 package it.bz.its.angelhack.threedudes.hikingbuddy.adapters;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import it.bz.its.angelhack.threedudes.hikingbuddy.R;
-import it.bz.its.angelhack.threedudes.hikingbuddy.activities.MissionsFragment;
+import it.bz.its.angelhack.threedudes.hikingbuddy.activities.ActivitiesFragment;
 
 /**
  * Created by philipgiuliani on 17.05.15.
  */
 public class TabsAdapter extends FragmentStatePagerAdapter {
-    private static final int FRAGMENT_MISSIONS = 0;
-    private static final int FRAGMENT_TIMELINE = 1;
+    private static final int FRAGMENT_TIMELINE = 0;
+    private static final int FRAGMENT_MISSIONS = 1;
     private Context context;
 
     public TabsAdapter(Context context, FragmentManager fragmentManager) {
@@ -24,7 +23,7 @@ public class TabsAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return new MissionsFragment();
+        return new ActivitiesFragment();
     }
 
     @Override

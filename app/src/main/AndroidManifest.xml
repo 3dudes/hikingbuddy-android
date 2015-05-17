@@ -65,7 +65,8 @@
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/TabTheme">
+            android:theme="@style/TabTheme"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".activities.RouteMapActivity"
@@ -76,6 +77,7 @@
 
         <activity
             android:name=".activities.EndMissionActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" >
         </activity>
 
